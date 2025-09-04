@@ -106,7 +106,7 @@ export async function onboard(req, res) {
     const userId = req.user._id;
 
     const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
-
+    console.log(req.body);
     if (!fullName || !bio || !nativeLanguage || !learningLanguage || !location) {
       return res.status(400).json({
         message: "All fields are required",
@@ -131,16 +131,16 @@ export async function onboard(req, res) {
 
     if (!updatedUser) return res.status(404).json({ message: "User not found" });
 
-    // try {
-    //   await upsertStreamUser({
-    //     id: updatedUser._id.toString(),
-    //     name: updatedUser.fullName,
-    //     image: updatedUser.profilePic || "",
-    //   });
-    //   console.log(`Stream user updated after onboarding for ${updatedUser.fullName}`);
-    // } catch (streamError) {
-    //   console.log("Error updating Stream user during onboarding:", streamError.message);
-    // }
+    try {
+      await upsertStreamUser({
+        id: updatedUser._id.toString(),
+        name: updatedUser.fullName,
+        image: updatedUser.profilePic || "",
+      });
+      console.log(`Stream user updated after onboarding for ${updatedUser.fullName}`);
+    } catch (streamError) {
+      console.log("Error updating Stream user during onboarding:", streamError.message);
+    }
 
     res.status(200).json({ success: true, user: updatedUser });
   } catch (error) {
