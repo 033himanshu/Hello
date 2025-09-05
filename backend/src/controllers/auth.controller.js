@@ -104,8 +104,8 @@ export function logout(req, res) {
 export async function onboard(req, res) {
   try {
     const userId = req.user._id;
-
     const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
+
     console.log(req.body);
     if (!fullName || !bio || !nativeLanguage || !learningLanguage || !location) {
       return res.status(400).json({
